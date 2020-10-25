@@ -1,0 +1,21 @@
+{
+  "name": "nosql_project",
+  "version": "0.0.1",
+  "description": "web application for work with nosql bd: mongodb",
+  "author": {
+    "name": "ovc-serega"
+  },
+  "main": "server.js",
+  "scripts": {
+    "dev": "node_modules/.bin/nodemon server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "body-parser": "^1.19.0",
+    "mongodb": "^3.6.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
