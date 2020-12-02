@@ -171,18 +171,46 @@ module.exports = function (app, db) {
 
 
     // импорт в коллекции из файлов пользователя
-    // Проблема: файл может быть очень большим => все упадет
+    // Скрипт на стороне пользователя посылает по несколько документов
     app.post('/add/users', (req, res) => {
-        //...
+        const users = req.params.batch;
+        db.colleclion('users').insertMany(users, (err, result) =>{
+            if (err) {
+                res.send({'error': 'An error has occurred'});
+            } else {
+                res.send(note);
+            }
+        });
     });
     app.post('/add/business', (req, res) => {
-        //...
+        const business = req.params.batch;
+        db.colleclion('business').insertMany(business, (err, result) =>{
+            if (err) {
+                res.send({'error': 'An error has occurred'});
+            } else {
+                res.send(note);
+            }
+        });
     });
-    app.post('/add/review', (req, res) => {
-        //...
+    app.post('/add/reviews', (req, res) => {
+        const reviews = req.params.batch;
+        db.colleclion('reviews').insertMany(reviews, (err, result) =>{
+            if (err) {
+                res.send({'error': 'An error has occurred'});
+            } else {
+                res.send(note);
+            }
+        });
     });
-    app.post('/add/tip', (req, res) => {
-        //...
+    app.post('/add/tips', (req, res) => {
+        const tips = req.params.batch;
+        db.colleclion('tips').insertMany(tips, (err, result) =>{
+            if (err) {
+                res.send({'error': 'An error has occurred'});
+            } else {
+                res.send(note);
+            }
+        });
     });
 };
 
