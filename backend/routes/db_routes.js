@@ -16,6 +16,20 @@ module.exports = function (app, db) {
             }
         });
     });
+    // минимальные данные для отображения вне профиля
+    app.get('/users/mini/:id', (req,res)=>{
+        const id = req.params.id;
+        console.log(id);
+        db.collection('users').findOne({'userId':new ObjectID(id)},{'name':1},(err,item)=>{
+           if(err){
+               console.log(err);
+               res.send({'error':'An error has occured'});
+           } else {
+               console.log(item);
+               res.send(item);
+           }
+        });
+    });
     // обзоры пользователя
     app.get('/users/:id/reviews', (req,res) => {
         const id = req.params.id;
@@ -44,7 +58,7 @@ module.exports = function (app, db) {
     });
 
     // поиск заведений с фильтром
-
+    // выключены ненужные поля для отображения в поисковой выдаче
     app.get('business/search', (req,res) => {
         const city = req.params.city;
         const state = req.params.state; // по идее в запросе только один из city и state
@@ -59,7 +73,7 @@ module.exports = function (app, db) {
             query.stars = {$gte: minStars};
         if(categories !== undefined)
             query.categories = {$all : categories};
-        db.collection('business').find(query, (err, item) => {
+        db.collection('business').find(query, {'name':1,'address':1,'city':1,'state':1,'stars':1}, (err, item) => {
            if(err){
                console.log(err);
                res.send({'error':'An error has occured'});

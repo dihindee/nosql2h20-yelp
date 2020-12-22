@@ -44,6 +44,13 @@ async function sendToDatabase(pathToImportedFile){
                     url = '/add/users';
             }
         }
+        // разделяем строки на массивы строк
+        if(url === '/add/business') {
+            obj.categories = obj.categories.split(',');
+        }
+        if(url === '/add/users'){
+            obj.friends = obj.friends.split(',');
+        }
         batch.push(obj);
         lineReaded ++;
         totalLineReaded ++;
