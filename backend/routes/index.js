@@ -1,5 +1,5 @@
 const dbRoutes = require('./db_routes');
-const db_name = 'userdb';
+const db_name = 'yelp';
 module.exports = function (app,db){
   dbRoutes(app,db.db(db_name));
 
