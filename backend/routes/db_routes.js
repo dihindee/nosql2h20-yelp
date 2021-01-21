@@ -1,6 +1,6 @@
 var ObjectID = require('mongodb').ObjectID;
 module.exports = function (app, db) {
-
+    const PAGE_SIZE = 10;
     // данные пользователя
     app.get('/users/profile/:id', (req, res) => {
         const user_id = req.params.id;
@@ -34,11 +34,15 @@ module.exports = function (app, db) {
     app.get('/users/reviews/:id', (req, res) => {
         const user_id = req.params.id;
         console.log('/users/:id/reviews');
-        db.collection('reviews').find({'user_id': user_id}).toArray( (err, item) => {
+        let page = req.query.page;
+        if (page === undefined)
+            page = 1;
+        db.collection('reviews').find({'user_id': user_id}).skip((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).toArray((err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
             } else {
+                console.log(item.length);
                 // console.log(item);
                 res.send(item);
             }
@@ -48,7 +52,10 @@ module.exports = function (app, db) {
     app.get('/users/tips/:id', (req, res) => {
         const user_id = req.params.id;
         console.log('/users/:id/tips');
-        db.collection('tips').find({'user_id': user_id}).toArray( (err, item) => {
+        let page = req.query.page;
+        if (page === undefined)
+            page = 1;
+        db.collection('tips').find({'user_id': user_id}).skip((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).toArray((err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
@@ -61,12 +68,16 @@ module.exports = function (app, db) {
 
     // поиск заведений с фильтром
     // выключены ненужные поля для отображения в поисковой выдаче
-    app.get('business/search', (req, res) => {
+    app.get('/business/search/', (req, res) => {
         console.log('business/search');
-        const city = req.params.city;
-        const state = req.params.state; // по идее в запросе только один из city и state
-        const minStars = req.params.stars;
-        const categories = req.params.categories;
+        console.log(req.query);
+        const city = req.query.city;
+        const state = req.query.state; // по идее в запросе только один из city и state
+        const minStars = req.query.stars;
+        const categories = req.query.categories;
+        let page = req.query.page;
+        if (page === undefined)
+            page = 1;
         var query = {};
         if (city !== undefined)
             query.city = city;
@@ -82,12 +93,12 @@ module.exports = function (app, db) {
             'city': 1,
             'state': 1,
             'stars': 1
-        }).toArray((err, item) => {
+        }).skip((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).toArray((err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
             } else {
-                // console.log(item);
+                console.log(item.length);
                 res.send(item);
             }
         });
@@ -110,7 +121,10 @@ module.exports = function (app, db) {
     app.get('/business/reviews/:id', (req, res) => {
         const business_id = req.params.id;
         console.log('/business/:id/reviews');
-        db.collection('reviews').find({'business_id': business_id}).toArray( (err, item) => {
+        let page = req.query.page;
+        if (page === undefined)
+            page = 1;
+        db.collection('reviews').find({'business_id': business_id}).skip((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).toArray((err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
@@ -124,7 +138,10 @@ module.exports = function (app, db) {
     app.get('/business/tips/:id', (req, res) => {
         const business_id = req.params.id;
         console.log('/business/:id/tips');
-        db.collection('tips').find({'business_id': business_id}).toArray( (err, item) => {
+        let page = req.query.page;
+        if (page === undefined)
+            page = 1;
+        db.collection('tips').find({'business_id': business_id}).skip((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).toArray((err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
