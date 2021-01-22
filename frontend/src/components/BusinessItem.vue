@@ -1,13 +1,10 @@
 <template>
   <li
     class="w3-bar">
-    <div
-    v-on:click="$emit('click',business.id)">
-      <router-link
-          :to='url'
-          style="text-decoration: none">
-        <h2>{{ business.name }}</h2>
-      </router-link>
+    <div>
+        <h2
+            v-on:click="$emit('click',business.id)"
+        >{{ business.name }}</h2>
       <p>{{full_address}}</p>
       <p>{{ 'Категория: ' + business.categories }}</p>
       <p>{{ 'Время работы: ' + business.hours }}</p>

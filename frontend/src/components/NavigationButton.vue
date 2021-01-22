@@ -1,11 +1,10 @@
 <template>
-  <router-link :to='link_to'>
+
     <button
       class="w3-button w3-round"
-      v-on:click="$emit('click',button_title)">
+      v-on:click="$emit('click',button_filter)">
     {{button_title}}
     </button>
-  </router-link>
 
 </template>
 
@@ -17,19 +16,16 @@ export default {
       type: String,
       default: 'unknown button',
     },
-    link_to:{
-      type:String,
-      required: true,
+    button_filter:{
+      type: String,
+      default: '',
     }
   },
   computed:{
-    test(){
-      return 'stic';
-    }
-  }
+  },
+
 }
 </script>
 
 <style scoped>
-
 </style>

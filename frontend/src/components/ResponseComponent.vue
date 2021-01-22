@@ -15,10 +15,10 @@
         <section v-else>
           <div v-if="loading">Loading...</div>
           <div v-else>
-            <RestaurantList>
-            </RestaurantList>
 
-            <p>{{$router.params.filter}}</p>
+            <BusinesstList>
+            </BusinesstList>
+
             <h1>Bitcoin Price Index</h1>
 
             <div
@@ -31,8 +31,6 @@
 
         </section>
 
-
-
       </div>
       <div class="w3-col" style="width: 20%">
         <p>Карта</p>
@@ -44,11 +42,11 @@
 
 <script>
 import FilterPanel from "@/components/FilterPanel";
-import RestaurantList from "@/components/BusinesstList";
+import BusinesstList from "@/components/BusinesstList";
 import axios from "axios";
 export default {
   name: "ResponseComponent",
-  components: {RestaurantList, FilterPanel},
+  components: {BusinesstList, FilterPanel},
   data(){
     return{
       loading: false,
@@ -70,6 +68,10 @@ export default {
     fetchData: function () {
       this.error = this.post = null
       this.loading = true
+
+          // this.$route.params.category передаваемый параметр от кнопки
+      // this.$route.params.name передаваемый параметр от кнопки
+      // this.$route.params.place передаваемый параметр от кнопки
 
       axios
           .get('https://api.coindesk.com/v1/bpi/currentprice.json')

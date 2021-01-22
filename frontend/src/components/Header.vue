@@ -7,15 +7,15 @@
         <div class="w3-row-padding w3-container w3-light-gray w3-padding">
           <div class="w3-third">
             <BaseInputText
-                v-model="input_business"
-                placeholder="Business"
-                @keydown.enter="search_business"
+                v-model="input_name"
+                placeholder="Название бизнеса"
+                @keydown.enter="search_name"
             />
           </div>
           <div class="w3-third">
             <BaseInputText
                 v-model="input_place"
-                placeholder="Place"
+                placeholder="Местоположение"
                 @keydown.enter="search_place"
             />
           </div>
@@ -36,14 +36,12 @@
             <NavigationButton
                 button_title="Статистика"
                 class="w3-button w3-round w3-teal w3-margin-right"
-                v-on:click="go_to_page_statics"
-                link_to="/statics">
+                v-on:click="go_to_page_statics">
             </NavigationButton>
             <NavigationButton
                 button_title="Данные"
                 class="w3-button  w3-round w3-teal "
-                v-on:click="go_to_page_data"
-                link_to="/data">
+                v-on:click="go_to_page_data">
             </NavigationButton>
       </div>
     </div>
@@ -53,7 +51,8 @@
         <NavigationButton
             button_title="Рестораны"
             class="w3-teal"
-            v-on:click="filter_restaurant"
+            v-on:click="filter_business"
+            button_filter="restaurant"
             link_to="/search/restaurant">
         </NavigationButton>
       </div>
@@ -61,7 +60,8 @@
         <NavigationButton
             button_title="Услуги на дому"
             class="w3-teal"
-            v-on:click="filter_car"
+            v-on:click="filter_business"
+            button_filter="home"
             link_to="/search/home">
         </NavigationButton>
       </div>
@@ -69,7 +69,8 @@
         <NavigationButton
             button_title="Авто сервисы"
             class="w3-teal"
-            v-on:click="filter_services"
+            v-on:click="filter_business"
+            button_filter="car"
             link_to="/search/car">
         </NavigationButton>
       </div>
@@ -77,7 +78,8 @@
         <NavigationButton
             button_title="Остальное"
             class="w3-teal"
-            v-on:click="filter_other"
+            v-on:click="filter_business"
+            button_filter="other"
             link_to="/search/other">
         </NavigationButton>
       </div>
@@ -94,37 +96,54 @@ name: "Header",
   components: {BaseInputText, NavigationButton},
   methods:{
     go_to_page_statics(){
+      this.$router.push({path: '/statics'})
       console.log('переход на страницу статистики')
     },
     go_to_page_data(){
+      this.$router.push({path: '/data'})
       console.log('переход на страницу импорта')
     },
-    filter_restaurant(){
-      console.log('restaraunt');
+
+    filter_business(filter){
+      this.$router.push({
+        name: 'search_category',
+        params:{
+          category: filter
+        }})
+      console.log('filter business by categories: ' + filter)
+
     },
-    filter_services(){
-      console.log('services');
-    },
-    filter_car(){
-      console.log('car services');
-    },
-    filter_other(){
-      console.log('other');
-    },
-    search_business(){
-      console.log('search: ' + this.input_business);
+    search_name(){
+      this.$router.push({
+        name: 'search_name',
+        params:{
+          name: this.input_name
+        }})
+      console.log('search business with name: ' + this.input_name);
     },
     search_place(){
-      console.log('search: ' + this.input_place)
+      this.$router.push({
+        name: 'search_place',
+        params:{
+          place: this.input_place
+        }})
+      console.log('search business with place: ' + this.input_place)
     },
     search_business_and_place(){
-      console.log('search: ' + this.input_business + ' | '+ this.input_place)
+      this.$router.push({
+        name: 'search_name_&_place',
+        params:{
+          name: this.input_name,
+          place: this.input_place
+        }})
+
+      console.log('search business with name: ' + this.input_name + ' and with place: '+ this.input_place)
     }
   },
 
   data(){
     return{
-      input_business: '',
+      input_name: '',
       input_place: '',
     }
   },

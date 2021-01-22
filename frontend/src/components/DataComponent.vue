@@ -1,7 +1,7 @@
 <template>
   <div
       class="w3-container">
-    <h3>Исмпорт и экспорт данных</h3>
+    <h3>Импорт и экспорт данных</h3>
     <p>Дата последнего обновления данных: {{update_date}}</p>
     <div
     class="w3-row-padding">

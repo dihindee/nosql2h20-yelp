@@ -1,11 +1,14 @@
 <template>
   <div>
     <div>
-      <h2>{{ business.name }}</h2>
-      <p>{{full_address}}</p>
-      <p>{{ 'Категория: ' + business.categories }}</p>
-      <p>{{ 'Время работы: ' + business.hours }}</p>
-      <p>Рейтинг: {{ business.rating }}</p>
+
+      <p>{{this.$route.params.business_id}}</p>
+    // тут надо добавлять get запрос для бизнеса и компонента с отзывами
+<!--      <h2>{{ business.name }}</h2>-->
+<!--      <p>{{full_address}}</p>-->
+<!--      <p>{{ 'Категория: ' + business.categories }}</p>-->
+<!--      <p>{{ 'Время работы: ' + business.hours }}</p>-->
+<!--      <p>Рейтинг: {{ business.rating }}</p>-->
     </div>
 
     <div>
@@ -28,10 +31,10 @@ export default {
 name: "RestaurantComponent",
   components: {FeedbackList, },
   props:{
-    business:{
-      type: Object,
-      required: true
-    }
+    // business:{
+    //   type: Object,
+    //
+    // }
   },
   computed:{
     full_address(){

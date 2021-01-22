@@ -12,17 +12,45 @@ Vue.config.productionTip = false
 Vue.use(VueRouter);
 
 const routes = [
-  {path: '/data', component: DataComponent},
-  {path: '/statics', component: StatisticComponent},
   {
-    path: '/search/:filter',
-    component: ResponseComponent,
-    props:{
-      id: 'dsfdf'
-    }
+    name: 'data',
+    path: '/data',
+    component: DataComponent
   },
-  {path: '/business/:id', component: BusinessComponent},
-  {path: '/user/:id',component: UserComponent}
+  {
+    path: '/statics',
+    name: 'statics',
+    component: StatisticComponent},
+  {
+    name: 'search_category',
+    path: '/search/category=:category',
+    component: ResponseComponent,
+  },
+  {
+    name: 'search_name',
+    path: '/search/name=:name',
+    component: ResponseComponent,
+  },
+  {
+    name: 'search_place',
+    path: '/search/place=:place',
+    component: ResponseComponent,
+  },
+  {
+    name: 'search_name_&_place',
+    path: '/search/name=:name&place=:place',
+    component: ResponseComponent,
+  },
+  {
+    name: 'business',
+    path: '/business/business_id=:business_id',
+    component: BusinessComponent
+  },
+  {
+    name: 'user',
+    path: '/user/user_id=:user_id',
+    component: UserComponent
+  }
 ]
 
 const router = new VueRouter({
