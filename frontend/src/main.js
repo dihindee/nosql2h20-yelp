@@ -14,7 +14,13 @@ Vue.use(VueRouter);
 const routes = [
   {path: '/data', component: DataComponent},
   {path: '/statics', component: StatisticComponent},
-  {path: '/search/:filter', component: ResponseComponent},
+  {
+    path: '/search/:filter',
+    component: ResponseComponent,
+    props:{
+      id: 'dsfdf'
+    }
+  },
   {path: '/business/:id', component: BusinessComponent},
   {path: '/user/:id',component: UserComponent}
 ]
