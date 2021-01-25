@@ -1,4 +1,4 @@
 module.exports ={
-    url : "mongodb://localhost:27017/"
-    // добавить авторизацию
+    url : 'mongodb://mongo:27017'
+    // авторизация пользователя
 }

@@ -9,8 +9,7 @@ const db = require('./config/db');
 app.use(bodyParser.urlencoded({extended :true}));
 
 const port = 8080;
-const host = '127.0.0.1';
-
+const host = '0.0.0.0';
 
 MongoClient.connect(db.url,{ useUnifiedTopology: true } , (err, database) => {
   if (err)
@@ -18,11 +17,8 @@ MongoClient.connect(db.url,{ useUnifiedTopology: true } , (err, database) => {
 
     require('./routes')(app,database);
     app.listen(port,host,()=>{
-        console.log('We live on' + port);
+        console.log('We live on ' + port);
     })
 });
 
-
-
-//app.listen(port,host);
 console.log('running on http://'+`${host}`+':'+`${port}`);
