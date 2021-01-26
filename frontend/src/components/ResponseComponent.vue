@@ -21,11 +21,12 @@
 
             <h1>Bitcoin Price Index</h1>
 
-            <div
-                v-for="currency in info"
-                :key="currency.code">
-              {{currency.description}} : {{currency.rate_float}}
-            </div>
+            <p>{{this.info}}</p>
+<!--            <div-->
+<!--                v-for="currency in info"-->
+<!--                :key="currency.code">-->
+<!--              {{currency.description}} : {{currency.rate_float}}-->
+<!--            </div>-->
 
           </div>
 
@@ -74,9 +75,10 @@ export default {
       // this.$route.params.place передаваемый параметр от кнопки
 
       axios
-          .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+          .get('http://localhost:3000/test')
           .then(response => {
-            this.info = response.data.bpi
+            this.info = response.data
+            console.log(response.data)
           })
           .catch(error => {
             console.log(error);

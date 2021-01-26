@@ -6,13 +6,12 @@ services:
       context:  ./backend
       dockerfile: Dockerfile
     container_name: node_app
-#    environment:
-#      - NODE_ENV = development
     volumes:
       - './backend:/usr/src/app'
       - '/usr/src/app/node_modules'
     ports:
-    - 8080:8080
+    - 8999:8999
+    - 3000:3000
     depends_on:
       - mongo
     restart: always
@@ -22,24 +21,20 @@ services:
     image: mongo:latest
     container_name: mongo
     restart: always
-#   environment:
-#     - MONGO_DATA_DIR=/data/db
-#     - MONGO_LOG_DIR=/dev/null
     ports:
     - 27017:27017
-#    command: mongod
 
-#  frontend:
-#    container_name: vue_app
-#    build:
-#      context: ./frontend
-#      dockerfile: Dockerfile
-#    volumes:
-#      - './frontend:/app'
-#      - '/app/node_modules'
-#    ports:
-#      - '8081:8080'
-#    restart: always
-#    depends_on:
-#      - backend
+  frontend:
+    container_name: vue_app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - './frontend:/app'
+      - '/app/node_modules'
+    ports:
+      - 8080:8080
+    restart: always
+    depends_on:
+      - backend
 
