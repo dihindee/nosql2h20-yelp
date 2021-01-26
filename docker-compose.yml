@@ -8,6 +8,9 @@ services:
     container_name: node_app
 #    environment:
 #      - NODE_ENV = development
+    volumes:
+      - './backend:/usr/src/app'
+      - '/usr/src/app/node_modules'
     ports:
     - 8080:8080
     depends_on:
