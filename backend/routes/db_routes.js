@@ -60,6 +60,7 @@ module.exports = function (app, db) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
             } else {
+                console.log(item.length);
                 // console.log(item);
                 res.send(item);
             }
@@ -75,6 +76,25 @@ module.exports = function (app, db) {
         const state = req.query.state; // по идее в запросе только один из city и state
         const minStars = req.query.stars;
         const categories = req.query.categories;
+        const sorting = req.query.sortby;
+        let sort_params = {};
+        switch (sorting){
+            case 'name_asc':
+                sort_params.name = 1;
+                break;
+            case 'name_desc':
+                sort_params.name = -1;
+                break;
+            case 'stars':
+                sort_params.stars = 1;
+                break;
+            case 'reviews_asc':
+                sort_params.review_count = 1;
+                break;
+            case 'reviews_desc':
+                sort_params.review_count = -1;
+                break;
+        }
         let page = req.query.page;
         if (page === undefined)
             page = 1;
@@ -93,7 +113,7 @@ module.exports = function (app, db) {
             'city': 1,
             'state': 1,
             'stars': 1
-        }).skip((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).toArray((err, item) => {
+        }).sort(sort_params).skip((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).toArray((err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
@@ -129,7 +149,7 @@ module.exports = function (app, db) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
             } else {
-                // console.log(item);
+                console.log(item.length);
                 res.send(item);
             }
         });
@@ -152,6 +172,11 @@ module.exports = function (app, db) {
         });
     });
 
+    // app.get('/business/categories', (req, res) => {
+    //     db.collection("business").distinct("categories", {}).then(results => {
+    //         res.send(results)
+    //     }).catch(err => res.send({'error': 'An error has occured'}));
+    // });
 
     // такой запрос вряд ли нужен
     /*
