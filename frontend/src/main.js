@@ -50,6 +50,16 @@ const routes = [
     name: 'user',
     path: '/user/user_id=:user_id',
     component: UserComponent
+  },
+  {
+    name: 'filter_business',
+    path: '/filter/state=:state&city=:city&categories=:categories&stars=:stars&reviews=:reviews&is_open=:is_open',
+    component: ResponseComponent
+  },
+  {
+    name: 'filter_analytics',
+    path: '/filter_analytics/state=:state&city=:city&categories=:categories&stars=:stars&reviews=:reviews&is_open=:is_open',
+    component: StatisticComponent
   }
 ]
 

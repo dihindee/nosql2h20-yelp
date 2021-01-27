@@ -2,7 +2,6 @@
   <div
     class="w3-container">
     <h5>Фильтры</h5>
-    <form>
       <div>
         <p>Страна или американский штат:</p>
         <select v-model="selected_state">
@@ -15,7 +14,7 @@
 
       <div v-if="selected_state !== ''">
         <p>Город в выбранной стране:</p>
-        <select v-model="selected_cities">
+        <select v-model="selected_city">
           <option value="">Выберите город</option>
           <option v-for="opt in cities_of_current_state" v-bind:key="opt">
             {{opt}}
@@ -32,13 +31,19 @@
           </option>
         </select>
 
-        <ul>
-          <li
-              v-for="(el,index) in selected_categories" v-bind:key="el"
-              v-on:remove="selected_categories.splice(index,1)">
-            {{el}} <button v-on:click="$emit('remove')">Удалить</button>
-          </li>
-        </ul>
+        <div v-if="selected_categories.length">
+          <p>Выбранные категории:</p>
+          <ul>
+            <li
+                v-for="(el,index) in selected_categories"
+                v-bind:key="el.title">
+              {{el.title}}
+              <button v-on:click="selected_categories.splice(index,1)">X</button>
+            </li>
+          </ul>
+        </div>
+
+
       </div>
 
       <div>
@@ -57,8 +62,10 @@
       </div>
 
 
-      <button type="submit"> Искать по фильтру</button>
-    </form>
+      <button
+          v-on:click="filter_business"
+          class="w3-button w3-round w3-teal"
+      > Искать по фильтру</button>
   </div>
 
 </template>
@@ -75,7 +82,7 @@ export default {
       cities_list: j_cities,
       categories_list: j_categories,
       selected_state:"",
-      selected_cities:"",
+      selected_city:"",
       selected_cat:"",
       selected_categories: [],
       reviews_count: 0,
@@ -83,26 +90,55 @@ export default {
       is_open: true
     }
   },
+  props:{
+    router_name:{
+      type: String,
+      required: true
+    }
+  },
   created() {
 
   },
   methods:{
     add_new_categories(){
-      console.log(this.selected_cat);
-      this.selected_categories.push(this.selected_cat);
+      for (var i = 0; i < this.selected_categories.length; i++) {
+        if (this.selected_categories[i].title === this.selected_cat)
+          return
+      }
+      this.selected_categories.push({title:this.selected_cat});
+    },
+    filter_business(){
+      let str_categories = '';
 
+        for (var i = 0; i < this.selected_categories.length; i++) {
+          str_categories+=this.selected_categories[i].title+';';
+        }
+      str_categories = str_categories.substring(0,str_categories.length-1)
+
+      console.log(this.router_name)
+        this.$router.push({
+          name: this.router_name,
+          params:{
+            state: (this.selected_state !== "")?this.selected_state:"NULL",
+            city: (this.selected_city !== "")?this.selected_city:"NULL",
+            categories: (this.selected_categories.length > 0)? str_categories:"NULL",
+            stars: this.stars_count,
+            reviews: this.reviews_count,
+            is_open: this.is_open
+          }})
+
+        console.log('search business with filter: ' )
     }
   },
   computed:{
     cities_of_current_state: function (){
-
       if (this.selected_state === ""){
         return []
       }
-
      return this.cities_list[this.selected_state]
     }
   }
+
 
 }
 </script>
