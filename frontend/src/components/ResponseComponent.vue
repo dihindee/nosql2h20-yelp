@@ -3,7 +3,8 @@
       class="w3-container w3-row">
 
       <div class="w3-col" style="width: 20%">
-        <FilterPanel>
+        <FilterPanel
+            :router_name="b_router_name">
 
         </FilterPanel>
       </div>
@@ -52,7 +53,8 @@ export default {
     return{
       loading: false,
       errored: null,
-      info:null
+      info:null,
+      b_router_name: "filter_business"
     }
   },
   props:{
