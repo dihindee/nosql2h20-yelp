@@ -3,12 +3,9 @@
     class="w3-bar">
     <div
       class="w3-container">
-
-    <router-link to='url'>
-      <p> v-on:click="$emit('click',feedback.user_id)">
-      {{feedback.user_name}}
+      <p v-on:click="$emit('click',feedback.user_id)">
+      Name:{{feedback.user_name}}
       </p>
-    </router-link>
     <p>{{feedback.date}}</p>
     <p>{{feedback.text}}</p>
     <p>Рейтинг: {{feedback.rating}}</p>
