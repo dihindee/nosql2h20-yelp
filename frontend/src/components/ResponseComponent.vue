@@ -16,12 +16,12 @@
           <div v-if="loading">Loading...</div>
           <div v-else>
 
-            <BusinesstList>
+            <BusinesstList :business_list="info">
             </BusinesstList>
 
             <h1>Bitcoin Price Index</h1>
 
-            <p>{{this.info}}</p>
+<!--            <p>{{this.info}}</p>-->
 <!--            <div-->
 <!--                v-for="currency in info"-->
 <!--                :key="currency.code">-->
@@ -69,13 +69,25 @@ export default {
     fetchData: function () {
       this.error = this.post = null
       this.loading = true
-
-          // this.$route.params.category передаваемый параметр от кнопки
+      let query = ''
+      let query_delim = '?'
       // this.$route.params.name передаваемый параметр от кнопки
+      if( this.$route.params.name !==undefined) {
+        query += query_delim + 'name=' + this.$route.params.name
+        if (query_delim === '?')
+          query_delim = '&'
+      }
+      // this.$route.params.category передаваемый параметр от кнопки
+      if( this.$route.params.category !==undefined) {
+        query += query_delim + 'categories=' + this.$route.params.category
+        if (query_delim === '?')
+          query_delim = '&'
+      }
       // this.$route.params.place передаваемый параметр от кнопки
+      // местоположение название размытое, надо изменить поле ввода
 
       axios
-          .get('http://localhost:3000/test')
+          .get('http://localhost:3000/business/search/'+query)
           .then(response => {
             this.info = response.data
             console.log(response.data)

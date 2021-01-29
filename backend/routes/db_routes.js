@@ -71,6 +71,7 @@ module.exports = function (app, db) {
     app.get('/business/search/', (req, res) => {
         console.log('business/search');
         console.log(req.query);
+        const name = req.query.name;
         const city = req.query.city;
         const state = req.query.state; // по идее в запросе только один из city и state
         const minStars = req.query.stars;
@@ -79,14 +80,26 @@ module.exports = function (app, db) {
         if (page === undefined)
             page = 1;
         var query = {};
+        if (name !== undefined)
+            query.name = {$regex: '.*'+name+'.*'};
         if (city !== undefined)
             query.city = city;
         if (state !== undefined)
             query.state = state;
         if (minStars !== undefined)
             query.stars = {$gte: minStars};
-        if (categories !== undefined)
-            query.categories = {$all: categories};
+        if (categories !== undefined){
+            if(Array.isArray(categories)){
+                let arr = []
+                categories.forEach(i =>{
+                   arr.push(new RegExp(i,'i'));
+                });
+                console.log(arr);
+                query.categories = {$in : arr};
+            }
+            else
+                query.categories = {$regex: new RegExp(categories,'i')};
+        }
         db.collection('business').find(query, {
             'name': 1,
             'address': 1,

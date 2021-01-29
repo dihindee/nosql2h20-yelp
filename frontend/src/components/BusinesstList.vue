@@ -19,35 +19,35 @@ name: "RestaurantList",
   components: {BusinessItem},
   data(){
   return{
-    business_list:[ // тестовые данные для простого выводы
-      {
-        id:1,
-        name: 'test 1',
-        address: 'dfdf',
-        city: 'SAint',
-        state: 'sdfs',
-        categories: 'live meat',
-        hours:'12-3/00',
-        rating: 1,
-      },
-      {
-        id:2,
-          name: 'test 1',
-          address: 'dfdf',
-          city: 'SAint',
-          state: 'sdfs',
-          categories: 'live meat',
-          hours:'12-3/00',
-          rating: 1,
-      }
-      ]
+    // business_list:[ // тестовые данные для простого выводы
+    //   {
+    //     id:1,
+    //     name: 'test 1',
+    //     address: 'dfdf',
+    //     city: 'SAint',
+    //     state: 'sdfs',
+    //     categories: 'live meat',
+    //     hours:'12-3/00',
+    //     rating: 1,
+    //   },
+    //   {
+    //     id:2,
+    //       name: 'test 1',
+    //       address: 'dfdf',
+    //       city: 'SAint',
+    //       state: 'sdfs',
+    //       categories: 'live meat',
+    //       hours:'12-3/00',
+    //       rating: 1,
+    //   }
+    //   ]
     }
   },
   props:{
-    // business_list:{
-    //   type: Object,
-    //   required: true
-    // },
+    business_list:{
+      type: Object,
+      required: true
+    },
   },
   methods:{
     go_to_business(business_id){
