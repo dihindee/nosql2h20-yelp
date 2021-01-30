@@ -74,8 +74,10 @@ module.exports = function (app, db) {
         console.log(req.query);
         const name = req.query.name;
         const city = req.query.city;
-        const state = req.query.state; // по идее в запросе только один из city и state
+        const state = req.query.state;
         const minStars = req.query.stars;
+        const reviews = req.query.reviews;
+        const is_open = req.query.is_open;
         const categories = req.query.categories;
         const sorting = req.query.sortby;
         let sort_params = {};
@@ -100,15 +102,19 @@ module.exports = function (app, db) {
         if (page === undefined)
             page = 1;
         var query = {};
-        if (name !== undefined)
-            query.name = {$regex: '.*'+name+'.*'};
-        if (city !== undefined)
+        if (name != undefined && name != 'NULL')
+            query.name = {$regex: new RegExp(name, 'i')};
+        if (city != undefined && city != 'NULL')
             query.city = city;
-        if (state !== undefined)
+        if (state != undefined && state != 'NULL')
             query.state = state;
-        if (minStars !== undefined)
-            query.stars = {$gte: minStars};
-        if (categories !== undefined){
+        if (minStars != undefined && minStars != 'NULL')
+            query.stars = {$gte: parseInt(minStars)};
+        if (reviews != undefined && reviews != 'NULL')
+            query.review_count = {$gte: parseInt(reviews)};
+        if (is_open == true)
+            query.is_open = 1;
+        if (categories != undefined && categories != 'NULL'){
             if(Array.isArray(categories)){
                 let arr = []
                 categories.forEach(i =>{
@@ -120,6 +126,7 @@ module.exports = function (app, db) {
             else
                 query.categories = {$regex: new RegExp(categories,'i')};
         }
+        console.log(query);
         db.collection('business').find(query, {
             'name': 1,
             'address': 1,
