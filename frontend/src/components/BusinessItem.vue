@@ -6,7 +6,8 @@
       <div class="w3-col w3-right w3-container " style="width:50px"></div>
       <div class="w3-rest w3-container">
         <h3
-            v-on:click="$emit('click',business.business_id)"
+            v-on:click.left="get_click"
+            class="w3-center"
         >{{ business.name }}</h3>
         <p class="w3-left-align">Адрес: {{full_address}}</p>
         <p class="w3-left-align">Категории: {{business.categories }}</p>
@@ -27,6 +28,13 @@ name: "BusinessItem",
     type: Object,
     required: true
 }
+  },
+  methods:{
+    get_click(){
+      if( getSelection().toString().length === 0){
+        this.$emit('click',this.business.business_id)
+      }
+    }
   },
   computed:{
     full_address(){
