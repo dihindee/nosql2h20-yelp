@@ -140,7 +140,7 @@ module.exports = function (app, db) {
     // данные заведения
     app.get('/business/profile/:id', (req, res) => {
         const business_id = req.params.id;
-        console.log('/business/:id');
+        console.log('/business/:id'+ business_id);
         db.collection('business').findOne({'business_id': business_id}, (err, item) => {
             if (err) {
                 console.log(err);

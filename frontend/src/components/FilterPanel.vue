@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w3-container">
+    class="w3-container w3-margin-right">
     <h5>Фильтры</h5>
       <div>
         <p>Страна или американский штат:</p>
