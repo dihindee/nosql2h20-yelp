@@ -20,7 +20,6 @@
             <BusinesstList :business_list="info">
             </BusinesstList>
 
-            <h1>Bitcoin Price Index</h1>
 
 <!--            <p>{{this.info}}</p>-->
 <!--            <div-->
@@ -69,19 +68,45 @@ export default {
   },
   methods:{
     fetchData: function () {
+      console.log(this.$route.params);
       this.error = this.post = null
       this.loading = true
       let query = ''
       let query_delim = '?'
       // this.$route.params.name передаваемый параметр от кнопки
       if( this.$route.params.name !==undefined) {
-        query += query_delim + 'name=' + this.$route.params.name
+        query += query_delim + 'name=' + this.$route.params.name;
         if (query_delim === '?')
           query_delim = '&'
       }
       // this.$route.params.category передаваемый параметр от кнопки
-      if( this.$route.params.category !==undefined) {
-        query += query_delim + 'categories=' + this.$route.params.category
+      if( this.$route.params.categories !==undefined) {
+        query += query_delim + 'categories=' + this.$route.params.categories;
+        if (query_delim === '?')
+          query_delim = '&'
+      }
+      if( this.$route.params.city !== undefined){
+        query += query_delim + 'city=' + this.$route.params.city;
+        if (query_delim === '?')
+          query_delim = '&'
+      }
+      if( this.$route.params.state !== undefined){
+        query += query_delim + 'state=' + this.$route.params.state;
+        if (query_delim === '?')
+          query_delim = '&'
+      }
+      if( this.$route.params.stars !== undefined){
+        query += query_delim + 'stars=' + this.$route.params.stars;
+        if (query_delim === '?')
+          query_delim = '&'
+      }
+      if( this.$route.params.reviews !== undefined){
+        query += query_delim + 'reviews=' + this.$route.params.reviews;
+        if (query_delim === '?')
+          query_delim = '&'
+      }
+      if( this.$route.params.is_open !== undefined){
+        query += query_delim + 'is_open=' + this.$route.params.is_open;
         if (query_delim === '?')
           query_delim = '&'
       }

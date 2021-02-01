@@ -112,7 +112,7 @@ module.exports = function (app, db) {
             query.stars = {$gte: parseInt(minStars)};
         if (reviews != undefined && reviews != 'NULL')
             query.review_count = {$gte: parseInt(reviews)};
-        if (is_open == true)
+        if (is_open == true || is_open == 'true')
             query.is_open = 1;
         if (categories != undefined && categories != 'NULL'){
             if(Array.isArray(categories)){

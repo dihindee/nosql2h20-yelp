@@ -108,7 +108,7 @@ name: "Header",
       this.$router.push({
         name: 'search_category',
         params:{
-          category: filter
+          categories: filter
         }})
       console.log('filter business by categories: ' + filter)
 
