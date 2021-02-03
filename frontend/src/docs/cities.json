@@ -1,135 +1,24 @@
 {
-  "Argentina": [
-    "Buenos Aires"
-  ],
-  "Australia": [
-    "Adelaide",
-    "Brisbane",
-    "Melbourne",
-    "Perth",
-    "Sydney"
-  ],
-  "Austria": [
-    "Wien"
-  ],
-  "Belgium": [
-    "Antwerpen",
-    "Bruxelles"
-  ],
-  "Brazil": [
-    "Rio de Janeiro",
-    "São Paulo"
-  ],
   "Canada": [
     "Calgary",
     "Edmonton",
-    "Halifax",
     "Montréal",
-    "Ottawa",
-    "Toronto",
-    "Vancouver"
-  ],
-  "Chile": [
-    "Santiago"
-  ],
-  "Czech Republic": [
-    "Praha"
-  ],
-  "Denmark": [
-    "København"
-  ],
-  "Finland": [
-    "Helsinki"
-  ],
-  "France": [
-    "Lyon",
-    "Marseille",
-    "Paris"
-  ],
-  "Germany": [
-    "Berlin",
-    "Frankfurt am Main",
-    "Hamburg",
-    "Köln",
-    "München"
-  ],
-  "Hong Kong": [
-    "香港"
-  ],
-  "Italy": [
-    "Milano",
-    "Roma"
-  ],
-  "Japan": [
-    "大阪市",
-    "東京"
-  ],
-  "Malaysia": [
-    "Kuala Lumpur"
-  ],
-  "Mexico": [
-    "México, D.F."
-  ],
-  "New Zealand": [
-    "Auckland"
-  ],
-  "Norway": [
-    "Oslo"
-  ],
-  "Philippines": [
-    "Manila"
-  ],
-  "Poland": [
-    "Kraków",
-    "Warszawa"
-  ],
-  "Portugal": [
-    "Lisboa"
+    "Montreal",
+    "Toronto"
   ],
   "Republic of Ireland": [
     "Dublin"
   ],
-  "Singapore": [
-    "Singapore"
-  ],
-  "Spain": [
-    "Barcelona",
-    "Madrid"
-  ],
-  "Sweden": [
-    "Stockholm"
-  ],
-  "Switzerland": [
-    "Zürich"
-  ],
-  "Taiwan": [
-    "台北市"
-  ],
-  "the Netherlands": [
-    "Amsterdam"
-  ],
-  "Turkey": [
-    "İstanbul"
-  ],
   "United Kingdom": [
-    "Belfast",
-    "Brighton",
-    "Bristol",
-    "Cardiff",
-    "Edinburgh",
-    "Glasgow",
-    "Leeds",
-    "Liverpool",
-    "London",
-    "Manchester"
+    "Leeds"
   ],
-  "US AZ": [
+  "AZ": [
     "Phoenix",
     "Scottsdale",
     "Tempe",
     "Tucson"
   ],
-  "US CA": [
+  "CA": [
     "Alameda",
     "Albany",
     "Alhambra",
@@ -207,18 +96,18 @@
     "Westwood",
     "Yountville"
   ],
-  "US CO": [
+  "CO": [
     "Boulder",
     "Denver"
   ],
-  "US CT": [
+  "CT": [
     "Hartford",
     "New Haven"
   ],
-  "US DC": [
+  "DC": [
     "Washington, DC"
   ],
-  "US FL": [
+  "FL": [
     "Fort Lauderdale",
     "Gainesville",
     "Miami",
@@ -226,38 +115,38 @@
     "Orlando",
     "Tampa"
   ],
-  "US GA": [
+  "GA": [
     "Atlanta",
     "Savannah"
   ],
-  "US HI": [
+  "HI": [
     "Honolulu",
     "Lahaina"
   ],
-  "US IA": [
+  "IA": [
     "Iowa City"
   ],
-  "US ID": [
+  "ID": [
     "Boise"
   ],
-  "US IL": [
+  "IL": [
     "Chicago",
     "Evanston",
     "Naperville",
     "Schaumburg",
     "Skokie"
   ],
-  "US IN": [
+  "IN": [
     "Bloomington",
     "Indianapolis"
   ],
-  "US KY": [
+  "KY": [
     "Louisville"
   ],
-  "US LA": [
+  "LA": [
     "New Orleans"
   ],
-  "US MA": [
+  "MA": [
     "Allston",
     "Boston",
     "Brighton",
@@ -265,90 +154,90 @@
     "Cambridge",
     "Somerville"
   ],
-  "US MD": [
+  "MD": [
     "Baltimore"
   ],
-  "US MI": [
+  "MI": [
     "Ann Arbor",
     "Detroit"
   ],
-  "US MN": [
+  "MN": [
     "Minneapolis",
     "Saint Paul"
   ],
-  "US MO": [
+  "MO": [
     "Kansas City",
     "Saint Louis"
   ],
-  "US NC": [
+  "NC": [
     "Charlotte",
     "Durham",
     "Raleigh"
   ],
-  "US NJ": [
+  "NJ": [
     "Newark",
     "Princeton"
   ],
-  "US NM": [
+  "NM": [
     "Albuquerque",
     "Santa Fe"
   ],
-  "US NV": [
+  "NV": [
     "Las Vegas",
     "Reno"
   ],
-  "US NY": [
+  "NY": [
     "Brooklyn",
     "Long Island City",
     "New York",
     "Flushing"
   ],
-  "US OH": [
+  "OH": [
     "Cincinnati",
     "Cleveland",
     "Columbus"
   ],
-  "US OR": [
+  "OR": [
     "Portland",
     "Salem"
   ],
-  "US PA": [
+  "PA": [
     "Philadelphia",
     "Pittsburgh"
   ],
-  "US RI": [
+  "RI": [
     "Providence"
   ],
-  "US SC": [
+  "SC": [
     "Charleston"
   ],
-  "US TN": [
+  "TN": [
     "Memphis",
     "Nashville"
   ],
-  "US TX": [
+  "TX": [
     "Austin",
     "Dallas",
     "Houston",
     "San Antonio"
   ],
-  "US UT": [
+  "UT": [
     "Salt Lake City"
   ],
-  "US VA": [
+  "VA": [
     "Alexandria",
     "Arlington",
     "Richmond"
   ],
-  "US VT": [
+  "VT": [
     "Burlington"
   ],
-  "US WA": [
+  "WA": [
     "Bellevue",
     "Redmond",
     "Seattle"
   ],
-  "US WI": [
+  "WI": [
     "Madison",
     "Milwaukee"
   ]
