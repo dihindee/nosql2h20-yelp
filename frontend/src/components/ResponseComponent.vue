@@ -1,5 +1,13 @@
 <template>
   <div class="w3-container">
+
+<!--    <p>{{this.$route.params.state}}</p>-->
+<!--    <p>{{this.$route.params.city}}</p>-->
+<!--    <p>{{this.$route.params.categories}}</p>-->
+<!--    <p>{{this.$route.params.stars}}</p>-->
+<!--    <p>{{this.$route.params.reviews}}</p>-->
+<!--    <p>{{this.$route.params.is_open}}</p>-->
+
     <div
         class="w3-container w3-row">
 
@@ -112,7 +120,6 @@ export default {
           .get('http://localhost:3000/business/search/'+query)
           .then(response => {
             this.info = response.data
-            console.log(response.data)
           })
           .catch(error => {
             console.log(error);

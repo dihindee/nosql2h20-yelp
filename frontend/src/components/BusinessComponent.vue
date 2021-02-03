@@ -40,30 +40,27 @@
 
     </div>
 
-    <div>
-      <h3>Описания</h3>
+    <TipsList
+        :business_id="business.business_id">
+    </TipsList>
 
-<!--      Добавить услуги-->
-    </div>
+    <ReviewsList
+        :business_id="business.business_id">
+    </ReviewsList>
 
-    <div>
-      <h3>Отзывы</h3>
-
-      <FeedbackList
-        :business_id="this.$route.params.business_id">
-
-      </FeedbackList>
-    </div>
   </div>
 </template>
 
 <script>
-import FeedbackList from "@/components/FeedbackList";
+// import FeedbackList from "@/components/";
+import ReviewsList from "./ReviewsList";
+import TipsList from "./TipsList";
 import axios from "axios";
+
 
 export default {
 name: "RestaurantComponent",
-  components: {FeedbackList, },
+  components: {TipsList, ReviewsList,},
   data(){
     return{
       loading: false,

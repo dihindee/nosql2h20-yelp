@@ -156,7 +156,7 @@ module.exports = function (app, db) {
     // обзоры на заведения
     app.get('/business/reviews/:id', (req, res) => {
         const business_id = req.params.id;
-        console.log('/business/:id/reviews');
+        console.log('/business/reviews/:id');
         let page = req.query.page;
         if (page === undefined)
             page = 1;
@@ -173,7 +173,7 @@ module.exports = function (app, db) {
     // советы в заведении
     app.get('/business/tips/:id', (req, res) => {
         const business_id = req.params.id;
-        console.log('/business/:id/tips');
+        console.log('/business/tips/:id');
         let page = req.query.page;
         if (page === undefined)
             page = 1;
@@ -182,7 +182,7 @@ module.exports = function (app, db) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
             } else {
-                // console.log(item);
+                console.log(item.length);
                 res.send(item);
             }
         });

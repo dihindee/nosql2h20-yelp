@@ -16,7 +16,6 @@ services:
       - mongo
     restart: always
 
-## проблемы с монгой
   mongo:
     image: mongo:latest
     container_name: mongo
@@ -37,4 +36,3 @@ services:
     restart: always
     depends_on:
       - backend
-

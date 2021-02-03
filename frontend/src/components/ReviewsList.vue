@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    class="w3-container">
+    <h4>Отзывы</h4>
     <section v-if="errored">
       <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
     </section>
@@ -7,15 +9,23 @@
     <section v-else>
       <div v-if="loading">Loading...</div>
       <div v-else>
-        <ul
-            class="w3-ul">
-          <FeedbackItem
-              v-for="item in feedback_list"
-              :key="item.id"
-              :feedback="item"
-              @click="go_to_user"
-          >
-          </FeedbackItem>
+        <p>{{reviews_list}}</p>
+
+        <ul class="w3-ul">
+          <li
+            class="w3-bar w3-round"
+            >
+            <div class="w3-bar-item">
+
+            </div>
+          </li>
+<!--          <FeedbackItem-->
+<!--              v-for="item in feedback_list"-->
+<!--              :key="item.id"-->
+<!--              :feedback="item"-->
+<!--              @click="go_to_user"-->
+<!--          >-->
+<!--          </FeedbackItem>-->
         </ul>
       </div>
     </section>
@@ -24,17 +34,17 @@
 </template>
 
 <script>
-import FeedbackItem from "@/components/FeedbackItem";
+// import FeedbackItem from "@/components/FeedbackItem";
 import axios from "axios";
 export default {
 name: "FeedbackList",
-  components: {FeedbackItem},
+  components: {},
   data(){
     return{
       loading: false,
       errored: null,
       info:null,
-      feedback_list:[]
+      reviews_list:[]
     }
   },
   props:{
@@ -44,7 +54,7 @@ name: "FeedbackList",
     }
   },
   created() {
-    this.fetchData()
+   // this.fetchData()
   },
   watch:{
     $route: 'fetchData'
@@ -64,9 +74,9 @@ name: "FeedbackList",
       this.error = this.post = null
       this.loading = true
       axios
-          .get('http://localhost:3000/test')
+          .get('http://localhost:3000/business/reviews/'+this.business_id)
           .then(response => {
-            this.feedback_list = response.data
+            this.reviews_list = response.data
             console.log(response.data)
           })
           .catch(error => {
