@@ -7,12 +7,17 @@ import StatisticComponent from "@/components/StatisticComponent";
 import ResponseComponent from "@/components/ResponseComponent";
 import BusinessComponent from "@/components/BusinessComponent";
 import UserComponent from "@/components/UserComponent";
+import indexComponent from "./components/indexComponent";
 
 Vue.config.productionTip = false
 Vue.use(VueRouter);
 
 const routes = [
   {
+    path: '/',
+    component: indexComponent
+  }
+  ,{
     name: 'data',
     path: '/data',
     component: DataComponent

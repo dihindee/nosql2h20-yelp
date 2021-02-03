@@ -13,7 +13,7 @@
 
       <div class="w3-col" style="width: 20%">
         <FilterPanel
-            :router_name="b_router_name">
+            router_name="filter_business">
 
         </FilterPanel>
       </div>
@@ -68,7 +68,6 @@ export default {
       loading: false,
       errored: null,
       info:null,
-      b_router_name: "filter_business",
       selected_sort: 'name_asc',
       options: [
         { text: 'Название', value: 'name_asc' },

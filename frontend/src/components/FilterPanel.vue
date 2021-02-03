@@ -24,9 +24,10 @@
 
       <div>
         <p> Категории заведения:</p>
-        <select v-model="selected_cat">
+        <select v-model="selected_cat"
+          v-on:change="add_new_categories">
           <option disabled value="">Выберите категорию</option>
-          <option v-for="opt in categories_list" v-bind:key="opt" v-on:click="add_new_categories">
+          <option v-for="opt in categories_list" v-bind:key="opt" >
             {{opt}}
           </option>
         </select>
