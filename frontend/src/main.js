@@ -28,7 +28,7 @@ const routes = [
     component: StatisticComponent},
   {
     name: 'search_category',
-    path: '/search/category=:category',
+    path: '/search/categories=:categories',
     component: ResponseComponent,
   },
   {

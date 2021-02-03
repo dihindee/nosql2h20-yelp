@@ -40,6 +40,25 @@
               </p>
             </div>
 
+            <div class="w3-container w3-row">
+              <div class="w3-container w3-third">
+                <button
+                    class="w3-button  w3-teal"
+                    v-on:click="to_prev_page">
+                  Прошлая страница
+                </button>
+              </div>
+              <div class="w3-container w3-third">
+                <p>{{page}}</p>
+              </div>
+              <div class="w3-container w3-third">
+                <button
+                    class="w3-button w3-teal"
+                    v-on:click="to_next_page">
+                  Следующая страница
+                </button>
+              </div>
+            </div>
             <BusinesstList
                 :business_list="info">
             </BusinesstList>
@@ -76,18 +95,23 @@ export default {
         { text: 'Рейтинг обратная', value: 'stars_desc' },
         { text: 'Отзывы', value: 'reviews_asc' },
         { text: 'Отзывы обратная', value: 'reviews_desc' },
-      ]
+      ],
+      page: 1,
     }
   },
   props:{
     id: String,
   },
   created() {
-
+    this.page = 1
     this.fetchData()
   },
   watch:{
-    $route: 'fetchData'
+   // $route: 'fetchData',
+    $route: function(){
+      this.fetchData();
+      this.page =1
+    }
   },
   methods:{
     fetchData: function () {
@@ -141,6 +165,8 @@ export default {
       // this.$route.params.place передаваемый параметр от кнопки
       // местоположение название размытое, надо изменить поле ввода
 
+      //TODO добавить выбор страницы в запрос
+
       axios
           .get('http://localhost:3000/business/search/'+query)
           .then(response => {
@@ -157,8 +183,19 @@ export default {
     update_sort(){
       this.fetchData()
       console.log("Новая сортировка:" + this.selected_sort)
+    },
+
+    to_next_page(){
+      this.page++;
+      this.fetchData()
+    },
+    to_prev_page(){
+      if(this.page>1){
+        this.page--;
+        this.fetchData()
+      }
     }
-    }
+  }
 }
 
 </script>

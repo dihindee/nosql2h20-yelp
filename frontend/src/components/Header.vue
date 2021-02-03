@@ -25,7 +25,6 @@
                 class=" w3-hover-red w3-round w3-teal"
                 v-on:click="search_business_and_place"
                 link_to="/search/all">
-<!--                ВОТ ТУТ НАДО ДОБАВИТЬ ПЕРДАЧУ дАННЫХ В ЗАПРОС, ЧТО БЫЛО, ЧТО ИСКАТЬ-->
             </NavigationButton>
           </div>
         </div>
