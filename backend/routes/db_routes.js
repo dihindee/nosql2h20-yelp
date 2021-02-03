@@ -78,7 +78,7 @@ module.exports = function (app, db) {
         const minStars = req.query.stars;
         const reviews = req.query.reviews;
         const is_open = req.query.is_open;
-        const categories = req.query.categories;
+        let categories = req.query.categories;
         const sorting = req.query.sortby;
         let sort_params = {};
         switch (sorting){
@@ -101,6 +101,7 @@ module.exports = function (app, db) {
                 sort_params.review_count = -1;
                 break;
         }
+        console.log(sort_params);
         let page = req.query.page;
         if (page === undefined)
             page = 1;
@@ -108,8 +109,8 @@ module.exports = function (app, db) {
         if (name != undefined && name != 'NULL')
             query.name = {$regex: new RegExp(name, 'i')};
         if (city != undefined && city != 'NULL')
-            query.city = city;
-        if (state != undefined && state != 'NULL')
+            query.city = {$regex: new RegExp(city, 'i')};
+        if (query.city === undefined && state != undefined && state != 'NULL')
             query.state = state;
         if (minStars != undefined && minStars != 'NULL')
             query.stars = {$gte: parseInt(minStars)};
@@ -117,17 +118,16 @@ module.exports = function (app, db) {
             query.review_count = {$gte: parseInt(reviews)};
         if (is_open == true || is_open == 'true')
             query.is_open = 1;
-        if (categories != undefined && categories != 'NULL'){
-            if(Array.isArray(categories)){
+        if (categories !== undefined && categories !== 'NULL'){
+            if(! Array.isArray(categories)){
+                categories = categories.split(';');
+            }
                 let arr = []
                 categories.forEach(i =>{
                    arr.push(new RegExp(i,'i'));
                 });
                 console.log(arr);
                 query.categories = {$in : arr};
-            }
-            else
-                query.categories = {$regex: new RegExp(categories,'i')};
         }
         console.log(query);
         db.collection('business').find(query, {
@@ -173,6 +173,13 @@ module.exports = function (app, db) {
                 res.send({'error': 'An error has occured'});
             } else {
                 console.log(item.length);
+                for(let i = 0; i < item.length; i++){
+                    db.collection('users').find({user_id: item[i].user_id},{name: 1}, (err, user_item)=>{
+                        if(user_item){
+                            item[i].user_name = user_item.name;
+                        }
+                    });
+                }
                 res.send(item);
             }
         });
@@ -190,6 +197,13 @@ module.exports = function (app, db) {
                 res.send({'error': 'An error has occured'});
             } else {
                 console.log(item.length);
+                for(let i = 0; i < item.length; i++){
+                    db.collection('users').find({user_id: item[i].user_id},{name: 1}, (err, user_item)=>{
+                        if(user_item){
+                            item[i].user_name = user_item.name;
+                        }
+                    });
+                }
                 res.send(item);
             }
         });
