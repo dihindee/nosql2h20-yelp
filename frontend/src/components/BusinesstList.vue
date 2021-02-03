@@ -1,6 +1,6 @@
 <template>
   <ul
-  class="w3-ul"
+  class="w3-ul w3-card w3-margin-right w3-margin-left"
   v-if="business_list.length">
     <BusinessItem
       v-for="item in business_list"
@@ -19,28 +19,6 @@ name: "RestaurantList",
   components: {BusinessItem},
   data(){
   return{
-    // business_list:[ // тестовые данные для простого выводы
-    //   {
-    //     id:1,
-    //     name: 'test 1',
-    //     address: 'dfdf',
-    //     city: 'SAint',
-    //     state: 'sdfs',
-    //     categories: 'live meat',
-    //     hours:'12-3/00',
-    //     rating: 1,
-    //   },
-    //   {
-    //     id:2,
-    //       name: 'test 1',
-    //       address: 'dfdf',
-    //       city: 'SAint',
-    //       state: 'sdfs',
-    //       categories: 'live meat',
-    //       hours:'12-3/00',
-    //       rating: 1,
-    //   }
-    //   ]
     }
   },
   props:{

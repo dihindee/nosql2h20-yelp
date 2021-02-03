@@ -1,6 +1,15 @@
 <template>
-  <div
-      class="w3-container w3-row">
+  <div class="w3-container">
+
+<!--    <p>{{this.$route.params.state}}</p>-->
+<!--    <p>{{this.$route.params.city}}</p>-->
+<!--    <p>{{this.$route.params.categories}}</p>-->
+<!--    <p>{{this.$route.params.stars}}</p>-->
+<!--    <p>{{this.$route.params.reviews}}</p>-->
+<!--    <p>{{this.$route.params.is_open}}</p>-->
+
+    <div
+        class="w3-container w3-row">
 
       <div class="w3-col" style="width: 20%">
         <FilterPanel
@@ -16,18 +25,24 @@
         <section v-else>
           <div v-if="loading">Loading...</div>
           <div v-else>
+            <div
+            class="w3-container">
+              <p class="w3-right-align"> Сортировка:
+                <select v-model="selected_sort">
+                  <option
+                      v-for="opt in options"
+                      v-bind:value="opt.value"
+                      v-bind:key="opt.text"
+                      v-on:click="update_sort">
+                    {{ opt.text }}
+                  </option>
+                </select>
+              </p>
+            </div>
 
-            <BusinesstList :business_list="info">
+            <BusinesstList
+                :business_list="info">
             </BusinesstList>
-
-
-<!--            <p>{{this.info}}</p>-->
-<!--            <div-->
-<!--                v-for="currency in info"-->
-<!--                :key="currency.code">-->
-<!--              {{currency.description}} : {{currency.rate_float}}-->
-<!--            </div>-->
-
           </div>
 
         </section>
@@ -36,9 +51,9 @@
       <div class="w3-col" style="width: 20%">
         <p>Карта</p>
       </div>
-
-
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -53,7 +68,16 @@ export default {
       loading: false,
       errored: null,
       info:null,
-      b_router_name: "filter_business"
+      b_router_name: "filter_business",
+      selected_sort: 'name_asc',
+      options: [
+        { text: 'Название', value: 'name_asc' },
+        { text: 'Название обратная', value: 'name_desc' },
+        { text: 'Рейтинг', value: 'stars_asc' },
+        { text: 'Рейтинг обратная', value: 'stars_desc' },
+        { text: 'Отзывы', value: 'reviews_asc' },
+        { text: 'Отзывы обратная', value: 'reviews_desc' },
+      ]
     }
   },
   props:{
@@ -110,6 +134,11 @@ export default {
         if (query_delim === '?')
           query_delim = '&'
       }
+
+      query += query_delim + 'sortby=' + this.selected_sort
+        if (query_delim === '?')
+          query_delim = '&'
+
       // this.$route.params.place передаваемый параметр от кнопки
       // местоположение название размытое, надо изменить поле ввода
 
@@ -126,6 +155,10 @@ export default {
           .finally(() => (this.loading = false));
     },
 
+    update_sort(){
+      this.fetchData()
+      console.log("Новая сортировка:" + this.selected_sort)
+    }
     }
 }
 

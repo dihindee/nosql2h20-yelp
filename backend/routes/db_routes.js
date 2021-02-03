@@ -88,8 +88,11 @@ module.exports = function (app, db) {
             case 'name_desc':
                 sort_params.name = -1;
                 break;
-            case 'stars':
+            case 'stars_asc':
                 sort_params.stars = 1;
+                break;
+            case 'stars_desc':
+                sort_params.stars = -1;
                 break;
             case 'reviews_asc':
                 sort_params.review_count = 1;
@@ -147,7 +150,7 @@ module.exports = function (app, db) {
     // данные заведения
     app.get('/business/profile/:id', (req, res) => {
         const business_id = req.params.id;
-        console.log('/business/:id');
+        console.log('/business/:id'+ business_id);
         db.collection('business').findOne({'business_id': business_id}, (err, item) => {
             if (err) {
                 console.log(err);
@@ -160,7 +163,7 @@ module.exports = function (app, db) {
     // обзоры на заведения
     app.get('/business/reviews/:id', (req, res) => {
         const business_id = req.params.id;
-        console.log('/business/:id/reviews');
+        console.log('/business/reviews/:id');
         let page = req.query.page;
         if (page === undefined)
             page = 1;
@@ -177,7 +180,7 @@ module.exports = function (app, db) {
     // советы в заведении
     app.get('/business/tips/:id', (req, res) => {
         const business_id = req.params.id;
-        console.log('/business/:id/tips');
+        console.log('/business/tips/:id');
         let page = req.query.page;
         if (page === undefined)
             page = 1;
@@ -186,7 +189,7 @@ module.exports = function (app, db) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
             } else {
-                // console.log(item);
+                console.log(item.length);
                 res.send(item);
             }
         });
