@@ -9,17 +9,19 @@
     <section v-else>
       <div v-if="loading">Loading...</div>
       <div v-else>
-        <p>{{tips_list}}</p>
         <ul class="w3-ul">
           <li
               v-for="item in tips_list"
               v-bind:key="item._id"
               class="w3-bar w3-round">
             <div class="w3-bar-item">
-              <p>Имя пользователя: {{get_user_name(item.user_id)}}</p>
-              <p>Дата: {{item.date}}</p>
-              <p>{{item.text}}</p>
-              <p>Количество комплиментов: {{item.compliment_count}}</p>
+              <p class="w3-left-align">
+                Имя пользователя:
+                <span v-on:click="$emit('click',item.user_id)">test_user_name{{item.user_name}}</span>
+              </p>
+              <p class="w3-left-align">Дата: {{item.date}}</p>
+              <p class="w3-left-align">{{item.text}}</p>
+              <p class="w3-left-align">Количество комплиментов: {{item.compliment_count}}</p>
 
             </div>
           </li>
@@ -51,22 +53,13 @@ export default {
     }
   },
   created() {
-    //this.fetchData()
+    this.fetchData()
   },
   watch:{
     $route: 'fetchData'
   },
 
   methods:{
-    go_to_user(id){
-      this.$router.push({
-        name: 'user',
-        params:{
-          user_id: id,
-        }})
-      console.log("go to user with id: "+id)
-    },
-
     fetchData() {
       //  this.$route.params.business_id
       this.error = this.post = null
@@ -83,32 +76,9 @@ export default {
           })
           .finally(() => (this.loading = false));
 
-        // for (let item in this.tips_list){
-        //   console.log(item.user_id)
-        //
-        // }
     },
-    fetchName(user_id){
-      let name ="Not found";
-      axios
-          .get('http://localhost:3000/users/mini/'+user_id)
-          .then(response => {
-            name = response.data.name
-            console.log(response.data)
-          })
-          .catch(error => {
-            console.log(error);
-
-          })
-      return name
-    }
-
   },
   computed: {
-    get_user_name(user_id){
-      return this.fetchName(user_id)
-
-    }
   }
 
 }

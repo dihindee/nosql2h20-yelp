@@ -4,6 +4,7 @@
     <div
       class="w3-container">
       <div class="w3-twothird">
+        <img />
         <div class="w3-row-padding w3-container w3-light-gray w3-padding">
           <div class="w3-third">
             <BaseInputText

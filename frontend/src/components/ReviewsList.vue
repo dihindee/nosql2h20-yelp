@@ -9,23 +9,24 @@
     <section v-else>
       <div v-if="loading">Loading...</div>
       <div v-else>
-        <p>{{reviews_list}}</p>
-
         <ul class="w3-ul">
           <li
-            class="w3-bar w3-round"
-            >
+              v-for="item in reviews_list"
+              v-bind:key="item.review_id"
+              class="w3-bar w3-round">
             <div class="w3-bar-item">
+              <p class="w3-left-align">
+                Имя пользователя:
+                <span v-on:click="$emit('click',item.user_id)">test_user_name{{item.user_name}}</span>
+              </p>
+              <p class="w3-left-align">Дата: {{item.date}}</p>
+              <p class="w3-left-align">{{item.text}}</p>
+              <p class="w3-left-align">Звёзды: {{item.stars}}</p>
+              <p class="w3-left-align">Реакции пользователей: полезно: {{item.useful}}; смешно:{{item.funny}};
+                прохладно:{{item.cool}}</p>
 
             </div>
           </li>
-<!--          <FeedbackItem-->
-<!--              v-for="item in feedback_list"-->
-<!--              :key="item.id"-->
-<!--              :feedback="item"-->
-<!--              @click="go_to_user"-->
-<!--          >-->
-<!--          </FeedbackItem>-->
         </ul>
       </div>
     </section>
@@ -54,21 +55,12 @@ name: "FeedbackList",
     }
   },
   created() {
-   // this.fetchData()
+    this.fetchData()
   },
   watch:{
     $route: 'fetchData'
   },
   methods:{
-    go_to_user(id){
-      this.$router.push({
-        name: 'user',
-        params:{
-          user_id: id,
-        }})
-      console.log("go to user with id: "+id)
-    },
-
     fetchData() {
       //  this.$route.params.business_id
       this.error = this.post = null

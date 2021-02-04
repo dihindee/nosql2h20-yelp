@@ -40,13 +40,22 @@
 
     </div>
 
-    <TipsList
-        :business_id="business.business_id">
-    </TipsList>
 
-    <ReviewsList
-        :business_id="business.business_id">
-    </ReviewsList>
+    <div class="w3-row">
+      <div class="w3-col w3-left w3-container" style="width:100px"></div>
+      <div class="w3-col w3-right w3-container " style="width:100px"></div>
+      <div class="w3-rest w3-container">
+        <TipsList
+            :business_id="business.business_id"
+            v-on:click="go_to_user">
+        </TipsList>
+
+        <ReviewsList
+            :business_id="business.business_id"
+            v-on:click="go_to_user">
+        </ReviewsList>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -133,8 +142,17 @@ name: "RestaurantComponent",
             this.errored = true
           })
           .finally(() => (this.loading = false));
-    }
-  }
+    },
+    go_to_user(user_id){
+      this.$router.push({
+        name: 'user',
+        params:{
+          user_id: user_id,
+        }})
+      console.log("go to user with id: "+user_id)
+    },
+  },
+
 }
 </script>
 
