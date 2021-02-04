@@ -37,7 +37,12 @@ module.exports = function (app, db) {
         let page = req.query.page;
         if (page === undefined)
             page = 1;
-        db.collection('reviews').find({'user_id': user_id}).skip((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).toArray((err, item) => {
+        db.collection('reviews').aggregate(
+            [{$lookup: {from: 'business', localField: 'business_id', foreignField: 'business_id', as : 'business'}}
+            , {$match:{'user_id': user_id}}])
+            .skip((page - 1) * PAGE_SIZE)
+            .limit(PAGE_SIZE)
+            .toArray((err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
@@ -55,7 +60,12 @@ module.exports = function (app, db) {
         let page = req.query.page;
         if (page === undefined)
             page = 1;
-        db.collection('tips').find({'user_id': user_id}).skip((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).toArray((err, item) => {
+        db.collection('tips').aggregate(
+            [{$lookup: {from: 'business', localField: 'business_id', foreignField: 'business_id', as : 'business'}}
+            , {$match:{'user_id': user_id}}])
+            .skip((page - 1) * PAGE_SIZE)
+            .limit(PAGE_SIZE)
+            .toArray((err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
@@ -167,7 +177,20 @@ module.exports = function (app, db) {
         let page = req.query.page;
         if (page === undefined)
             page = 1;
-        db.collection('reviews').find({'business_id': business_id}).skip((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).toArray((err, item) => {
+        db.collection('reviews').aggregate(
+            [{$lookup: {from: 'users', localField: 'user_id', foreignField: 'user_id', as : 'user'}}
+            , {$match:{'business_id': business_id}}])
+            .skip((page - 1) * PAGE_SIZE)
+            .limit(PAGE_SIZE)
+            .toArray((err, item) => {
+                if (err) {
+                    console.log(err);
+                    res.send({'error': 'An error has occured'});
+                } else {
+                     res.send(item);
+                }
+            });
+        /*db.collection('reviews').find({'business_id': business_id}).skip((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).toArray((err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
@@ -175,14 +198,17 @@ module.exports = function (app, db) {
                 console.log(item.length);
                 for(let i = 0; i < item.length; i++){
                     db.collection('users').find({user_id: item[i].user_id},{name: 1}, (err, user_item)=>{
+                        // console.log('found name for '+i);
                         if(user_item){
                             item[i].user_name = user_item.name;
                         }
                     });
                 }
+                // console.log(Object.getOwnPropertyNames(item[0]));
+                // console.log('reviews list sended');
                 res.send(item);
             }
-        });
+        });*/
     });
     // советы в заведении
     app.get('/business/tips/:id', (req, res) => {
@@ -191,19 +217,17 @@ module.exports = function (app, db) {
         let page = req.query.page;
         if (page === undefined)
             page = 1;
-        db.collection('tips').find({'business_id': business_id}).skip((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).toArray((err, item) => {
+        db.collection('tips').aggregate(
+            [{$lookup: {from: 'users', localField: 'user_id', foreignField: 'user_id', as : 'user'}}
+            , {$match:{'business_id': business_id}}])
+            .skip((page - 1) * PAGE_SIZE)
+            .limit(PAGE_SIZE)
+            .toArray((err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
             } else {
                 console.log(item.length);
-                for(let i = 0; i < item.length; i++){
-                    db.collection('users').find({user_id: item[i].user_id},{name: 1}, (err, user_item)=>{
-                        if(user_item){
-                            item[i].user_name = user_item.name;
-                        }
-                    });
-                }
                 res.send(item);
             }
         });

@@ -157,10 +157,14 @@ export default {
         if (query_delim === '?')
           query_delim = '&'
       }
-
-      query += query_delim + 'sortby=' + this.selected_sort
+      if( this.page !== 1){
+        query += query_delim + 'page='+this.page;
         if (query_delim === '?')
           query_delim = '&'
+      }
+      query += query_delim + 'sortby=' + this.selected_sort
+        // if (query_delim === '?')
+        //   query_delim = '&'
 
       // this.$route.params.place передаваемый параметр от кнопки
       // местоположение название размытое, надо изменить поле ввода
