@@ -38,10 +38,10 @@ name: "FriendsList",
     }
   },
   created() {
-    // this.fetchData();
+    this.fetchData();
   },
   watch:{
-    // $route: 'fetchData'
+    $route: 'fetchData'
   },
   methods:{
     fetchData() {

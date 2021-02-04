@@ -11,7 +11,6 @@
         <div v-if="loading">Loading...</div>
         <div v-if="notfound">Пользователь не найден!</div>
         <div v-else>
-          <p>{{user}}</p>
 
           <h3 class="w3-left-align">Информация о пользователе</h3>
           <p class="w3-left-align">Имя: {{this.user.name}}</p>
@@ -60,10 +59,12 @@
 
           </table>
         </div>
+        <UserTipsList
+            :user_id="this.user.user_id"
+        ></UserTipsList>
+        <UserReviewsList
+        :user_id="this.user.user_id"></UserReviewsList>
       </section>
-
-      <p>Отзывы пользователя</p>
-      <!--    Тут добавить компонет для коментариев пользователя-->
     </div>
   </div>
 
@@ -72,10 +73,12 @@
 <script>
 import axios from "axios";
 import FriendsItem from "./FriendsItem";
+import UserTipsList from "./UserTipsList";
+import UserReviewsList from "./UserReviewsList";
 
 export default {
   name: "UserComponent",
-  components: {FriendsList: FriendsItem},
+  components: {UserReviewsList, UserTipsList, FriendsList: FriendsItem},
   data(){
     return{
       loading: false,
@@ -94,7 +97,6 @@ export default {
   },
   methods:{
     fetchData() {
-      //  this.$route.params.user_id
       this.errored = this.post = null
       this.loading = true
       this.notfound = false
@@ -116,31 +118,6 @@ export default {
             }
           });
     },
-
-    // get_friends_names() {
-    //   this.errored_friends = null
-    //   this.loading_friends = true
-    //   let user_id_list = this.user.friends.replaceAll(" ", "").split(",")
-    //   console.log(user_id_list)
-    //
-    //   for (let i = 0; i < user_id_list.length; i++) {
-    //     console.log(user_id_list[i])
-    //     axios
-    //         .get('http://localhost:3000/users/mini/' + user_id_list[i])
-    //         .then(response => {
-    //           this.friends_names.push({user_id: user_id_list[i], name: response.data.name})
-    //           console.log(response.data)
-    //
-    //         })
-    //         .catch(error => {
-    //           console.log(error);
-    //         })
-    //         .finally(() => (this.loading_friends = false));
-    //
-    //   }
-    //
-    //   console.log(this.friends_names)
-    // },
     go_to_user(user_id){
       this.$router.push({
         name: 'user',
@@ -151,7 +128,6 @@ export default {
     },
     },
     computed:{
-
       slice_friends(){
         let temp = this.user.friends.replaceAll(" ","").split(",")
         let arr = [];
