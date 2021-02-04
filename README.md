@@ -22,6 +22,13 @@ sudo systemctl start mongod
 ```
 sudo systemctl stop mongod
 ```
+## Импорт и настройка базы данных
+Для импорта данных и настройки требуется установленный mongoimport, python3 и библиотека pymongo
+1. Запустить контейнер с mongodb
+2. Скачать архив https://www.kaggle.com/yelp-dataset/yelp-dataset, распаковать
+3. Скопировать файлы из папки import_scripts к файлам распакованного архива
+4. Запустить скрипт import_dataset_to_mongo.sh
+4.1. Если не установлены python3 и pymongo, не будет произведена индексация, что негативно скажется на быстродействии
 
 ## Demo work app
 
