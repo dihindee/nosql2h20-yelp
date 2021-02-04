@@ -20,7 +20,7 @@ module.exports = function (app, db) {
     app.get('/users/mini/:id', (req, res) => {
         const user_id = req.params.id;
         console.log('/users/mini/:id');
-        db.collection('users').findOne({'user_id': user_id}, {'name': 1}, (err, item) => {
+        db.collection('users').findOne({'user_id': user_id}, {projection:{'name': 1}}, (err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
