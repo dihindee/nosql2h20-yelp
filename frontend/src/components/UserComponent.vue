@@ -1,35 +1,87 @@
 <template>
-  <div>
-    <section v-if="errored">
-      <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
-    </section>
+  <div class="w3-row">
+    <div class="w3-col w3-left w3-container" style="width:100px"></div>
+    <div class="w3-col w3-right w3-container " style="width:100px"></div>
+    <div class="w3-rest w3-container">
+      <section v-if="errored">
+        <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
+      </section>
 
-    <section v-else>
-      <div v-if="loading">Loading...</div>
-      <div v-else>
-        <h3>Информация о пользователе</h3>
-        <p>Имя: {{this.user.name}}</p>
-        <!--    аналогично другие данные-->
-      </div>
-    </section>
+      <section v-else>
+        <div v-if="loading">Loading...</div>
+        <div v-if="notfound">Пользователь не найден!</div>
+        <div v-else>
+          <p>{{user}}</p>
 
-    <p>Отзывы пользователя</p>
-<!--    Тут добавить компонет для коментариев пользователя-->
+          <h3 class="w3-left-align">Информация о пользователе</h3>
+          <p class="w3-left-align">Имя: {{this.user.name}}</p>
+          <p class="w3-left-align">Количество отзывов: {{user.review_count}}</p>
+          <p class="w3-left-align">На yelp c  {{user.yelping_since}}</p>
+          <p class="w3-left-align">Оценки: полезно:{{user.yelping_since}}, смешно:{{user.funny}}, прохладно:{{user.cool}}</p>
+          <p class="w3-left-align">Элита: {{user.elite}}</p>
+          <p class="w3-left-align">Друзья:
+            <FriendsList
+                v-for="item in this.slice_friends"
+                v-bind:key="item.user_id"
+                :user_id="item.user_id"></FriendsList>
+          </p>
+          <p class="w3-left-align">Количество фанатов: {{user.fans}}</p>
+          <p class="w3-left-align">Средняя оценка: {{user.average_stars}}</p>
+          <p class="w3-left-align">История комплиментов</p>
+
+          <table class="w3-table-all">
+            <caption>История комплиментов</caption>
+            <tr>
+              <th>hot</th>
+              <th>more</th>
+              <th>profile</th>
+              <th>cute</th>
+              <th>list</th>
+              <th>note</th>
+              <th>plain</th>
+              <th>cool</th>
+              <th>funny</th>
+              <th>writer</th>
+              <th>photos</th>
+            </tr>
+            <tr>
+              <td>{{user.compliment_hot}}</td>
+              <td>{{user.compliment_more}}</td>
+              <td>{{user.compliment_profile}}</td>
+              <td>{{user.compliment_cute}}</td>
+              <td>{{user.compliment_list}}</td>
+              <td>{{user.compliment_note}}</td>
+              <td>{{user.compliment_plain}}</td>
+              <td>{{user.compliment_cool}}</td>
+              <td>{{user.compliment_funny}}</td>
+              <td>{{user.compliment_writer}}</td>
+              <td>{{user.compliment_photos}}</td>
+            </tr>
+
+          </table>
+        </div>
+      </section>
+
+      <p>Отзывы пользователя</p>
+      <!--    Тут добавить компонет для коментариев пользователя-->
+    </div>
   </div>
 
 </template>
 
 <script>
 import axios from "axios";
+import FriendsItem from "./FriendsItem";
 
 export default {
   name: "UserComponent",
+  components: {FriendsList: FriendsItem},
   data(){
     return{
       loading: false,
       errored: null,
-      info:null,
-      user:[]
+      user:null,
+      notfound: false,
     }
   },
   props:{
@@ -43,21 +95,75 @@ export default {
   methods:{
     fetchData() {
       //  this.$route.params.user_id
-      this.error = this.post = null
+      this.errored = this.post = null
       this.loading = true
+      this.notfound = false
       axios
-          .get('http://localhost:3000/test')
+          .get('http://localhost:3000/users/profile/'+this.$route.params.user_id)
           .then(response => {
             this.user = response.data
-            console.log(response.data)
+            console.log("ЗАгружено: ");
+            console.log(response.data.length);
           })
           .catch(error => {
             console.log(error);
             this.errored = true
           })
-          .finally(() => (this.loading = false));
-    }
+          .finally(() => {
+            this.loading = false;
+            if(this.user.length === 0){
+              this.notfound = true;
+            }
+          });
+    },
+
+    // get_friends_names() {
+    //   this.errored_friends = null
+    //   this.loading_friends = true
+    //   let user_id_list = this.user.friends.replaceAll(" ", "").split(",")
+    //   console.log(user_id_list)
+    //
+    //   for (let i = 0; i < user_id_list.length; i++) {
+    //     console.log(user_id_list[i])
+    //     axios
+    //         .get('http://localhost:3000/users/mini/' + user_id_list[i])
+    //         .then(response => {
+    //           this.friends_names.push({user_id: user_id_list[i], name: response.data.name})
+    //           console.log(response.data)
+    //
+    //         })
+    //         .catch(error => {
+    //           console.log(error);
+    //         })
+    //         .finally(() => (this.loading_friends = false));
+    //
+    //   }
+    //
+    //   console.log(this.friends_names)
+    // },
+    go_to_user(user_id){
+      this.$router.push({
+        name: 'user',
+        params:{
+          user_id: user_id,
+        }})
+      console.log("go to user with id: "+user_id)
+    },
+    },
+    computed:{
+
+      slice_friends(){
+        let temp = this.user.friends.replaceAll(" ","").split(",")
+        let arr = [];
+        for (let i =0; i< temp.length; i++){
+          arr.push({user_id: temp[i]})
+        }
+        console.log("Порезанный массив")
+        console.log(arr)
+        return arr
+      }
   }
+
 }
 </script>
 
