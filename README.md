@@ -4,7 +4,7 @@
 ## Local deploy
 Приложение работает на 8080 порту, mongodb 27017, backend на 3000 и 8999
 
-###Запуск с помощью docker-compose
+### Запуск с помощью docker-compose
 ```
 git clone [link]
 docker-compose up
@@ -12,13 +12,13 @@ docker-compose up
 Используйте флаг ``` --build``` для принудительной перезборки приложения, если вносили изменения модули или packege.json 
 backend
 
-###backend
+### backend
 Сервер приложения server.js
 ```
 node backend/server.js
 ```
 
-###mongo
+### mongo
 
 Запуск mongodb
 ```
@@ -40,7 +40,7 @@ sudo systemctl stop mongod
 3. Скопировать файлы из папки import_scripts к файлам распакованного архива
 4. Запустить скрипт import_dataset_to_mongo.sh
 
-###Vue/cli
+### Vue/cli
 Запуск vue.js
 ```
 npm run serve
