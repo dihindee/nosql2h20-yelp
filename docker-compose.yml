@@ -1,26 +1,38 @@
 version: "3"
 
-
 services:
-  webapp:
-    build: backend/Dockerfile
-#    environment:
-#      - NODE_ENV = development
+  backend:
+    build:
+      context:  ./backend
+      dockerfile: Dockerfile
+    container_name: node_app
+    volumes:
+      - './backend:/usr/src/app'
+      - '/usr/src/app/node_modules'
     ports:
-    - 8080:8080
-
-    links:
-      - database
+    - 8999:8999
+    - 3000:3000
     depends_on:
-      - database
-# проблемы с монгой
-  database:
+      - mongo
+    restart: always
+
+  mongo:
     image: mongo:latest
-    container_name: "mongodb"
-#   environment:
-#     - MONGO_DATA_DIR=/data/db
-#     - MONGO_LOG_DIR=/dev/null
+    container_name: mongo
+    restart: always
     ports:
     - 27017:27017
-    command: mongod
 
+  frontend:
+    container_name: vue_app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - './frontend:/app'
+      - '/app/node_modules'
+    ports:
+      - 8080:8080
+    restart: always
+    depends_on:
+      - backend

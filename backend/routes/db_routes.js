@@ -1,6 +1,6 @@
 var ObjectID = require('mongodb').ObjectID;
 module.exports = function (app, db) {
-
+    const PAGE_SIZE = 10;
     // данные пользователя
     app.get('/users/profile/:id', (req, res) => {
         const user_id = req.params.id;
@@ -20,7 +20,7 @@ module.exports = function (app, db) {
     app.get('/users/mini/:id', (req, res) => {
         const user_id = req.params.id;
         console.log('/users/mini/:id');
-        db.collection('users').findOne({'user_id': user_id}, {'name': 1}, (err, item) => {
+        db.collection('users').findOne({'user_id': user_id}, {projection:{'name': 1}}, (err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
@@ -34,11 +34,20 @@ module.exports = function (app, db) {
     app.get('/users/reviews/:id', (req, res) => {
         const user_id = req.params.id;
         console.log('/users/:id/reviews');
-        db.collection('reviews').find({'user_id': user_id}).toArray( (err, item) => {
+        let page = req.query.page;
+        if (page === undefined)
+            page = 1;
+        db.collection('reviews').aggregate(
+            [{$lookup: {from: 'business', localField: 'business_id', foreignField: 'business_id', as : 'business'}}
+            , {$match:{'user_id': user_id}}])
+            .skip((page - 1) * PAGE_SIZE)
+            .limit(PAGE_SIZE)
+            .toArray((err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
             } else {
+                console.log(item.length);
                 // console.log(item);
                 res.send(item);
             }
@@ -48,11 +57,20 @@ module.exports = function (app, db) {
     app.get('/users/tips/:id', (req, res) => {
         const user_id = req.params.id;
         console.log('/users/:id/tips');
-        db.collection('tips').find({'user_id': user_id}).toArray( (err, item) => {
+        let page = req.query.page;
+        if (page === undefined)
+            page = 1;
+        db.collection('tips').aggregate(
+            [{$lookup: {from: 'business', localField: 'business_id', foreignField: 'business_id', as : 'business'}}
+            , {$match:{'user_id': user_id}}])
+            .skip((page - 1) * PAGE_SIZE)
+            .limit(PAGE_SIZE)
+            .toArray((err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
             } else {
+                console.log(item.length);
                 // console.log(item);
                 res.send(item);
             }
@@ -61,33 +79,79 @@ module.exports = function (app, db) {
 
     // поиск заведений с фильтром
     // выключены ненужные поля для отображения в поисковой выдаче
-    app.get('business/search', (req, res) => {
+    app.get('/business/search/', (req, res) => {
         console.log('business/search');
-        const city = req.params.city;
-        const state = req.params.state; // по идее в запросе только один из city и state
-        const minStars = req.params.stars;
-        const categories = req.params.categories;
+        console.log(req.query);
+        const name = req.query.name;
+        const city = req.query.city;
+        const state = req.query.state;
+        const minStars = req.query.stars;
+        const reviews = req.query.reviews;
+        const is_open = req.query.is_open;
+        let categories = req.query.categories;
+        const sorting = req.query.sortby;
+        let sort_params = {};
+        switch (sorting){
+            case 'name_asc':
+                sort_params.name = 1;
+                break;
+            case 'name_desc':
+                sort_params.name = -1;
+                break;
+            case 'stars_asc':
+                sort_params.stars = 1;
+                break;
+            case 'stars_desc':
+                sort_params.stars = -1;
+                break;
+            case 'reviews_asc':
+                sort_params.review_count = 1;
+                break;
+            case 'reviews_desc':
+                sort_params.review_count = -1;
+                break;
+        }
+        console.log(sort_params);
+        let page = req.query.page;
+        if (page === undefined)
+            page = 1;
         var query = {};
-        if (city !== undefined)
-            query.city = city;
-        if (state !== undefined)
+        if (name != undefined && name != 'NULL')
+            query.name = {$regex: new RegExp(name, 'i')};
+        if (city != undefined && city != 'NULL')
+            query.city = {$regex: new RegExp(city, 'i')};
+        if (query.city === undefined && state != undefined && state != 'NULL')
             query.state = state;
-        if (minStars !== undefined)
-            query.stars = {$gte: minStars};
-        if (categories !== undefined)
-            query.categories = {$all: categories};
+        if (minStars != undefined && minStars != 'NULL')
+            query.stars = {$gte: parseInt(minStars)};
+        if (reviews != undefined && reviews != 'NULL')
+            query.review_count = {$gte: parseInt(reviews)};
+        if (is_open == true || is_open == 'true')
+            query.is_open = 1;
+        if (categories !== undefined && categories !== 'NULL'){
+            if(! Array.isArray(categories)){
+                categories = categories.split(';');
+            }
+                let arr = []
+                categories.forEach(i =>{
+                   arr.push(new RegExp(i,'i'));
+                });
+                console.log(arr);
+                query.categories = {$in : arr};
+        }
+        console.log(query);
         db.collection('business').find(query, {
             'name': 1,
             'address': 1,
             'city': 1,
             'state': 1,
             'stars': 1
-        }).toArray((err, item) => {
+        }).sort(sort_params).skip((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).toArray((err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
             } else {
-                // console.log(item);
+                console.log(item.length);
                 res.send(item);
             }
         });
@@ -96,7 +160,7 @@ module.exports = function (app, db) {
     // данные заведения
     app.get('/business/profile/:id', (req, res) => {
         const business_id = req.params.id;
-        console.log('/business/:id');
+        console.log('/business/:id'+ business_id);
         db.collection('business').findOne({'business_id': business_id}, (err, item) => {
             if (err) {
                 console.log(err);
@@ -109,32 +173,71 @@ module.exports = function (app, db) {
     // обзоры на заведения
     app.get('/business/reviews/:id', (req, res) => {
         const business_id = req.params.id;
-        console.log('/business/:id/reviews');
-        db.collection('reviews').find({'business_id': business_id}).toArray( (err, item) => {
+        console.log('/business/reviews/:id');
+        let page = req.query.page;
+        if (page === undefined)
+            page = 1;
+        db.collection('reviews').aggregate(
+            [{$lookup: {from: 'users', localField: 'user_id', foreignField: 'user_id', as : 'user'}}
+            , {$match:{'business_id': business_id}}])
+            .skip((page - 1) * PAGE_SIZE)
+            .limit(PAGE_SIZE)
+            .toArray((err, item) => {
+                if (err) {
+                    console.log(err);
+                    res.send({'error': 'An error has occured'});
+                } else {
+                     res.send(item);
+                }
+            });
+        /*db.collection('reviews').find({'business_id': business_id}).skip((page - 1) * PAGE_SIZE).limit(PAGE_SIZE).toArray((err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
             } else {
-                // console.log(item);
+                console.log(item.length);
+                for(let i = 0; i < item.length; i++){
+                    db.collection('users').find({user_id: item[i].user_id},{name: 1}, (err, user_item)=>{
+                        // console.log('found name for '+i);
+                        if(user_item){
+                            item[i].user_name = user_item.name;
+                        }
+                    });
+                }
+                // console.log(Object.getOwnPropertyNames(item[0]));
+                // console.log('reviews list sended');
                 res.send(item);
             }
-        });
+        });*/
     });
     // советы в заведении
     app.get('/business/tips/:id', (req, res) => {
         const business_id = req.params.id;
-        console.log('/business/:id/tips');
-        db.collection('tips').find({'business_id': business_id}).toArray( (err, item) => {
+        console.log('/business/tips/:id');
+        let page = req.query.page;
+        if (page === undefined)
+            page = 1;
+        db.collection('tips').aggregate(
+            [{$lookup: {from: 'users', localField: 'user_id', foreignField: 'user_id', as : 'user'}}
+            , {$match:{'business_id': business_id}}])
+            .skip((page - 1) * PAGE_SIZE)
+            .limit(PAGE_SIZE)
+            .toArray((err, item) => {
             if (err) {
                 console.log(err);
                 res.send({'error': 'An error has occured'});
             } else {
-                // console.log(item);
+                console.log(item.length);
                 res.send(item);
             }
         });
     });
 
+    // app.get('/business/categories', (req, res) => {
+    //     db.collection("business").distinct("categories", {}).then(results => {
+    //         res.send(results)
+    //     }).catch(err => res.send({'error': 'An error has occured'}));
+    // });
 
     // такой запрос вряд ли нужен
     /*
