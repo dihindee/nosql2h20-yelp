@@ -17,8 +17,8 @@
               class="w3-bar w3-round">
             <div class="w3-bar-item">
               <p class="w3-left-align">
-                Имя пользователя:
-                <span v-on:click="$emit('click',item.user_id)">test_user_name{{item.user_name}}</span>
+                Название заведения:
+                <span v-on:click="$emit('click',item.business_id)">{{item.business[0].name}}</span>
               </p>
               <p class="w3-left-align">Дата: {{item.date}}</p>
               <p class="w3-left-align">{{item.text}}</p>

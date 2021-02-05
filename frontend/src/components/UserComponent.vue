@@ -61,9 +61,12 @@
         </div>
         <UserTipsList
             :user_id="this.user.user_id"
+            @click="go_to_business"
         ></UserTipsList>
         <UserReviewsList
-        :user_id="this.user.user_id"></UserReviewsList>
+          :user_id="this.user.user_id"
+          @click="go_to_business"
+        ></UserReviewsList>
       </section>
     </div>
   </div>
@@ -125,6 +128,14 @@ export default {
           user_id: user_id,
         }})
       console.log("go to user with id: "+user_id)
+    },
+    go_to_business(business_id){
+      console.log('go to buseness with id: '+business_id)
+      this.$router.push({
+        name: 'business',
+        params:{
+          business_id: business_id
+        }})
     },
     },
     computed:{

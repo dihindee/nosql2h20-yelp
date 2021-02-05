@@ -22,6 +22,7 @@
           class="w3-third">
         <button
             v-on:click="check_data"
+            :disabled="comment"
             class=" w3-round w3-teal w3-button w3-round"
         >Проверить обновление данных</button>
       </div>
@@ -29,6 +30,7 @@
           class="w3-third">
         <button
             v-on:click="export_data"
+            :disabled="comment"
             class=" w3-round w3-teal w3-button w3-round">
           Экспортировать данные</button>
       </div>
@@ -45,7 +47,8 @@ name: "ImportComponent",
     return{
       update_date: "Данные ещё не загружены в БД",
       loading: false,
-      errored: null
+      errored: null,
+      comment: "В разработке"
     }
   },
   created() {
